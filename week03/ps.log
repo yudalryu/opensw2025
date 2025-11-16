@@ -1,0 +1,32 @@
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 Sep20 ?        00:00:03 /sbin/init
+root           2       1  0 Sep20 ?        00:00:00 /init
+root           6       2  0 Sep20 ?        00:00:00 plan9 --control-socket 7 --log-level 4 --server-fd 8 --pipe-fd 10 --log-truncate
+root          45       1  0 Sep20 ?        00:00:02 /usr/lib/systemd/systemd-journald
+root          94       1  0 Sep20 ?        00:00:05 /usr/lib/systemd/systemd-udevd
+root         104       1  0 Sep20 ?        00:00:00 snapfuse /var/lib/snapd/snaps/core24_1151.snap /snap/core24/1151 -o ro,nodev,allow_other,suid
+root         107       1  0 Sep20 ?        00:00:00 snapfuse /var/lib/snapd/snaps/htop_5092.snap /snap/htop/5092 -o ro,nodev,allow_other,suid
+root         109       1  0 Sep20 ?        00:00:04 snapfuse /var/lib/snapd/snaps/snapd_25202.snap /snap/snapd/25202 -o ro,nodev,allow_other,suid
+systemd+     165       1  0 Sep20 ?        00:00:00 /usr/lib/systemd/systemd-resolved
+systemd+     171       1  0 Sep20 ?        00:00:00 /usr/lib/systemd/systemd-timesyncd
+root         186       1  0 Sep20 ?        00:00:00 /usr/sbin/cron -f -P
+message+     187       1  0 Sep20 ?        00:00:00 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         196       1  0 Sep20 ?        00:00:06 /usr/lib/snapd/snapd
+root         197       1  0 Sep20 ?        00:00:00 /usr/lib/systemd/systemd-logind
+root         199       1  0 Sep20 ?        00:00:02 /usr/libexec/wsl-pro-service -vv
+root         204       1  0 Sep20 hvc0     00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud - 115200,38400,9600 vt220
+root         218       1  0 Sep20 tty1     00:00:00 /sbin/agetty -o -p -- \u --noclear - linux
+syslog       221       1  0 Sep20 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+root         237       1  0 Sep20 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root         354       2  0 Sep20 pts/1    00:00:00 /bin/login -f
+dbwldnj+     405       1  0 Sep20 ?        00:00:00 /usr/lib/systemd/systemd --user
+dbwldnj+     406     405  0 Sep20 ?        00:00:00 (sd-pam)
+dbwldnj+     414     354  0 Sep20 pts/1    00:00:00 -bash
+polkitd      797       1  0 Sep20 ?        00:00:00 /usr/lib/polkit-1/polkitd --no-debug
+root        1768       2  0 00:29 ?        00:00:00 /init
+root        1770    1768  0 00:29 ?        00:00:00 /init
+dbwldnj+    1775    1770  0 00:29 pts/0    00:00:00 -bash
+dbwldnj+    1836    1775 99 00:31 pts/0    00:00:00 ps -ef
+dbwldnj+    1837    1775  0 00:31 pts/0    00:00:00 tee ps.log
+dbwldnj+    1838    1775  0 00:31 pts/0    00:00:00 grep --color=auto -v PID
+dbwldnj+    1839    1775  0 00:31 pts/0    00:00:00 wc -l

@@ -1,0 +1,14 @@
+# object files
+*.o
+
+# static libraries
+*.a
+
+# shared libraries
+*.so
+*.so.*
+
+# build directories (선택)
+obj/
+bin/
+lib/
