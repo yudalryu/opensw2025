@@ -16,6 +16,11 @@ void calculate(int a, char* op, int b) {
     else if(op == '/') {
         result = mydiv(a, b);
     }
+    else if (op == '%') {
+        result = mymod(a, b);
+    }
+    else if (op == '^') { result = mypow(a, b);
+    }
     else {
         printf("Invalid operator.\n");
         return;
