@@ -28,7 +28,10 @@ int main(void) {
     int a, b;
     char op;
 
+    printf("~~~ Welcome to my calculator ~~~\n\n");
     printf("Enter expression (ex: 1 + 2): ");
+    printf("~~~ Goodbye, See you again ~~~\n\n")
+
     scanf("%d %c %d", &a, &op, &b);
 
     calculate(a, op, b);
