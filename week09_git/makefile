@@ -5,7 +5,7 @@ LDFLAGS = -Llib -lmyops
 SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
-LIB_DIR = lib
+LIB_DIR = libq
 
 OPS_SRC = $(SRC_DIR)/myadd.c \
           $(SRC_DIR)/mysub.c \
