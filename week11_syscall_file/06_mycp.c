@@ -1,80 +1,68 @@
 #include <stdio.h>
-#include <fcntl.h>
 #include <unistd.h>
-#include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
 
 #define BUF_SIZE 32
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
 
-    // 조건 1 + 최소 인자 3개 필요
-    if(argc < 3){
-        printf("Usage: %s <source file> <dest1> <dest2> ...\n", argv[0]);
-        return 1;
+    if (argc < 3) {
+        printf("Usage: %s [source file] [dest1] [dest2] ...\n", argv[0]);
+        exit(0);
     }
 
-    char *src = argv[1];
-
-    // 조건 2: source file MUST exist (read only)
-    int fd_src = open(src, O_RDONLY);
-    if(fd_src == -1){
-        perror(src);
-        return 1;
+    // source file open (read only)
+    int src_fd = open(argv[1], O_RDONLY);
+    if (src_fd == -1) {
+        perror("source open");
+        exit(1);
     }
 
-    // destination 파일 개수 = argc - 2
-    int dest_count = argc - 2;
-    int fd_list[dest_count];
+    // dest files open
+    int num_files = argc - 2;
+    int *dest_fd_list = (int*)malloc(sizeof(int) * num_files);
 
-    // 조건 5: dest 파일들 write only + create + 권한 0644
-    for(int i = 0; i < dest_count; i++){
-        fd_list[i] = open(argv[i+2],
-                          O_WRONLY | O_CREAT | O_TRUNC,
-                          0644);   // user rw-, group r--, others r--
-
-        if(fd_list[i] == -1){
-            perror(argv[i+2]);
-            // dest open 실패해도 다른 dest는 계속 open해야 하므로 종료 X
+    for (int i = 0; i < num_files; i++) {
+        dest_fd_list[i] = open(argv[i+2],
+                               O_WRONLY | O_CREAT | O_TRUNC,
+                               0644);
+        if (dest_fd_list[i] == -1) {
+            perror("dest open");
+            close(src_fd);
+            exit(1);
         }
     }
 
-    // 조건 4: src에서 32 bytes씩 읽어서
-    //         → 모든 dest + stdout에 동시에 write
+    // read + write loop
     char buffer[BUF_SIZE];
-    ssize_t n;
+    ssize_t r;
 
-    while(1){
-        n = read(fd_src, buffer, BUF_SIZE);
+    while (1) {
+        r = read(src_fd, buffer, BUF_SIZE);
 
-        // EOF
-        if(n == 0){
-            break;
-        }
-
-        // read 에러
-        if(n < 0){
+        if (r == 0) break;
+        if (r < 0) {
             perror("read");
             break;
         }
 
-        // stdout(1)에 write
-        write(1, buffer, n);
+        // write to stdout
+        write(1, buffer, r);
 
-        // 각 dest 파일에 write
-        for(int i = 0; i < dest_count; i++){
-            if(fd_list[i] != -1){
-                write(fd_list[i], buffer, n);
-            }
+        // write to each dest file
+        for (int i = 0; i < num_files; i++) {
+            write(dest_fd_list[i], buffer, r);
         }
     }
 
-    // 파일 닫기
-    close(fd_src);
-    for(int i = 0; i < dest_count; i++){
-        if(fd_list[i] != -1){
-            close(fd_list[i]);
-        }
+    // close all fd
+    close(src_fd);
+    
+    for (int i = 0; i < num_files; i++) {
+        close(dest_fd_list[i]);
     }
 
+    free(dest_fd_list);
     return 0;
 }
